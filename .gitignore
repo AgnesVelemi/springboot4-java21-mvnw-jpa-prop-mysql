@@ -32,5 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 
-secrets.properties
-./secrets.properties
+pwsecrets.properties
+./pwsecrets.properties
