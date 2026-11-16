@@ -2,6 +2,7 @@ package dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.service;
 
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.dto.RenovationMaterialRequest;
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.dto.RenovationMaterialResponse;
+import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.dto.UpsertResult;
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.entity.RenovationMaterial;
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.exception.ResourceNotFoundException;
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.repository.RenovationMaterialRepository;
@@ -44,16 +45,41 @@ public class RenovationMaterialService {
     }
 
     @Transactional
-    public RenovationMaterialResponse update(Long id, RenovationMaterialRequest request) {
-        RenovationMaterial entity = findEntityById(id);
-        entity.setName(request.name());
-        entity.setCategory(request.category());
-        entity.setUnit(request.unit());
-        entity.setUnitPrice(request.unitPrice());
-        entity.setStockQuantity(request.stockQuantity());
-
-        return toResponse(repository.save(entity));
+    public UpsertResult upsert(Long id, RenovationMaterialRequest request) {
+        return repository.findById(id)
+                .map(existing -> {
+                    existing.setName(request.name());
+                    existing.setCategory(request.category());
+                    existing.setUnit(request.unit());
+                    existing.setUnitPrice(request.unitPrice());
+                    existing.setStockQuantity(request.stockQuantity());
+                    RenovationMaterial saved = repository.save(existing);
+                    return new UpsertResult(toResponse(saved), false);
+                })
+                .orElseGet(() -> {
+                    RenovationMaterial created = RenovationMaterial.builder()
+                            .name(request.name())
+                            .category(request.category())
+                            .unit(request.unit())
+                            .unitPrice(request.unitPrice())
+                            .stockQuantity(request.stockQuantity())
+                            .build();
+                    RenovationMaterial saved = repository.save(created);
+                    return new UpsertResult(toResponse(saved), true);
+                });
     }
+
+//    @Transactional
+//    public RenovationMaterialResponse update(Long id, RenovationMaterialRequest request) {
+//        RenovationMaterial entity = findEntityById(id);
+//        entity.setName(request.name());
+//        entity.setCategory(request.category());
+//        entity.setUnit(request.unit());
+//        entity.setUnitPrice(request.unitPrice());
+//        entity.setStockQuantity(request.stockQuantity());
+//
+//        return toResponse(repository.save(entity));
+//    }
 
     @Transactional
     public void delete(Long id) {

@@ -1,0 +1,68 @@
+# GET
+curl --location 'http://localhost:8084/api/materials'
+curl --location 'http://localhost:8084/api/materials/1'
+
+# POST
+curl --location 'http://localhost:8084/api/materials' \
+--header 'Content-Type: application/json' \
+--data '{
+  "name": "Beltéri diszperziós falfesték 10L",
+  "category": "Festékek",
+  "unit": "vödör",
+  "unitPrice": 12099.00,
+  "stockQuantity": 129
+}'
+
+# PUT meglévő rekord módosítása->200 friss adattal
+curl --location --request PUT 'http://localhost:8084/api/materials/2' \
+--header 'Content-Type: application/json' \
+--data '{
+  "name": "PUT  módosított diszperziós falfesték 5L",
+  "category": "Festékek",
+  "unit": "fándli",
+  "unitPrice": 12099.00,
+  "stockQuantity": 8
+}'
+
+# PUT egy új rekord létrehozása->201 header:locat, friss adattal
+curl --location --request PUT 'http://localhost:8084/api/materials/-1' \
+--header 'Content-Type: application/json' \
+--data '{
+  "name": "PUT  módosított diszperziós falfesték 5L",
+  "category": "Festékek",
+  "unit": "vödör",
+  "unitPrice": 12099.00,
+  "stockQuantity": 129
+}'
+
+
+# PUT smart rekord módosítás->204 no content
+curl --location --request PUT 'http://localhost:8084/api/materials/smart/2' \
+--header 'Content-Type: application/json' \
+--data '{
+  "name": "smartosan  módosított diszperziós falfesték 5L",
+  "category": "Festékek",
+  "unit": "vödör",
+  "unitPrice": 12099.00,
+  "stockQuantity": 129
+}'
+
+# PUT smart rekord létrehozása->201 no content
+curl --location --request PUT 'http://localhost:8084/api/materials/smart/-1' \
+--header 'Content-Type: application/json' \
+--data '{
+  "name": "smartosan  létrehozott új diszperziós falfesték 5L",
+  "category": "Festékek",
+  "unit": "vödör",
+  "unitPrice": 12099.00,
+  "stockQuantity": 129
+}'
+
+# field módosít 405 Method not allowed
+curl --location --request PATCH 'http://localhost:8084/api/materials/1'
+
+# rekord delete 204 no contenttel
+curl --location --request DELETE 'http://localhost:8084/api/materials/4'
+
+
+
