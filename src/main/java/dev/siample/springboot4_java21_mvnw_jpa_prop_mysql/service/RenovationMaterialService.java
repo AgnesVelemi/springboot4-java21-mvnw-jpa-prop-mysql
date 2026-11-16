@@ -4,7 +4,7 @@ import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.dto.RenovationMaterial
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.dto.RenovationMaterialResponse;
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.dto.UpsertResult;
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.entity.RenovationMaterial;
-import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.exception.ResourceNotFoundException;
+import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.common.exception.ResourceNotFoundException;
 import dev.siample.springboot4_java21_mvnw_jpa_prop_mysql.repository.RenovationMaterialRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
